@@ -1,0 +1,90 @@
+module cpt-sr-te-sr-policy-nano-plan {
+  yang-version 1.1;
+
+  namespace "http://ctin.vn/cpt-sr-te-nano-plan";
+  prefix cpt-sr-te-sr-policy-nano-plan;
+
+  import tailf-ncs { prefix ncs; }
+
+  import cpt-sr-te { prefix cpt-sr-te; }
+
+  description "Models for CPT SR Policy external nano plan.";
+
+  revision 2020-03-16 {
+    description
+      "Initial revision.";
+  }
+
+  identity config-apply {
+    base ncs:plan-state;
+  }
+
+  identity head-end {
+    base ncs:plan-component-type;
+  }
+
+  ncs:plan-outline sr-policy-nano-plan {
+    ncs:component-type "ncs:self" {
+      ncs:state "ncs:init" {
+        ncs:create {
+          // sid-list changes kicker
+          ncs:nano-callback;
+        }
+      }
+
+      ncs:state "ncs:ready" {
+        ncs:create {
+          // this checks if there are errors in another components, show it in plan
+          ncs:nano-callback;
+        }
+      }
+    }
+
+    ncs:component-type "cpt-sr-te-sr-policy-nano-plan:head-end" {
+      ncs:state "ncs:init" {
+        ncs:delete {
+          // marks failure - internal ODN plan failures (delete only)
+          ncs:nano-callback;
+        }
+      }
+
+      ncs:state "cpt-sr-te-sr-policy-nano-plan:config-apply" {
+        ncs:create {
+          // create internal stacked service for this device.
+          ncs:nano-callback;
+        }
+      }
+
+      ncs:state "ncs:ready" {
+        ncs:create {
+          // mark state reached or failed based on internal plan.
+          // Check if internal service has CQ ID or plan failed mark it reached/failed/not-reached
+          ncs:nano-callback;
+        }
+      }
+    }
+  }
+
+  ncs:service-behavior-tree cpt-sr-te-sr-policy-servicepoint {
+    ncs:plan-outline-ref "cpt-sr-te-sr-policy-nano-plan:sr-policy-nano-plan";
+    ncs:plan-location "/cpt-sr-te:sr-policy-plan";
+
+    ncs:selector {
+      ncs:variable "NAME" {
+        ncs:value-expr "name";
+      }
+
+      ncs:create-component "'self'" {
+        ncs:component-type-ref "ncs:self";
+      }
+
+      ncs:variable "HEAD_END" {
+        ncs:value-expr "$SERVICE/head-end";
+      }
+
+      ncs:create-component "$HEAD_END" {
+        ncs:component-type-ref "cpt-sr-te-sr-policy-nano-plan:head-end";
+      }
+    }
+  }
+}

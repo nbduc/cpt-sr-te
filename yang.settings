@@ -1,0 +1,3 @@
+{
+    yangPath: "/home/cisco/nso-6.1/src/ncs/yang:/home/cisco/ncs-run/packages/cisco-tsdn-core-fp-common/src/yang:/home/cisco/ncs-run/packages/cisco-sr-te-cfp/src/yang:/home/cisco/ncs-run/packages/custom-template-utils/src/yang:/home/cisco/ncs-run/packages/resource-manager/src/yang:/home/cisco/ncs-run/packages/lsa-utils/src/yang"
+}

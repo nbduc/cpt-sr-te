@@ -1,0 +1,17 @@
+<ncs-package xmlns="http://tail-f.com/ns/ncs-packages">
+  <name>cpt-sr-te</name>
+  <package-version>1.0</package-version>
+  <description>Generated Python package</description>
+  <ncs-min-version>6.1</ncs-min-version>
+
+  <required-package>
+    <name>core-fp-common</name>
+  </required-package>
+
+  <component>
+    <name>main</name>
+    <application>
+      <python-class-name>cpt_sr_te.main.Main</python-class-name>
+    </application>
+  </component>
+</ncs-package>

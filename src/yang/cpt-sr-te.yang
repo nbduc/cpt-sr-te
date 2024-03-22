@@ -1,0 +1,114 @@
+module cpt-sr-te {
+  yang-version 1.1;
+
+  namespace "http://ctin.vn/cpt-sr-te";
+  prefix cpt-sr-te;
+
+  import tailf-ncs { prefix ncs; }
+  import tailf-common { prefix tailf; }
+  import tailf-kicker { prefix kicker; }
+
+  description "CPT SR-TE Module";
+
+  revision 2024-03-14 {
+    description
+      "Initial revision.";
+  }
+
+  list sr-policy {
+    tailf:info "CPT SR-TE Policy Configuration";
+    description "CPT SR-TE Policy Configuration";
+
+    key name;
+    leaf name {
+      tailf:info "Name of CPT SR-TE Policy";
+      description "Name of CPT SR-TE Policy";
+      type string;
+    }
+
+    uses ncs:service-data;
+    ncs:servicepoint cpt-sr-te-sr-policy-servicepoint;
+
+    leaf head-end {
+      tailf:info "Policy Head-end router";
+      description "Policy Head-end router";
+      type leafref {
+        path "/ncs:devices/ncs:device/ncs:name";
+      }
+      mandatory true;
+    }
+
+    leaf tail-end {
+      tailf:info "Policy Tail-end router";
+      description "Policy Tail-end router";
+      type leafref {
+        path "/ncs:devices/ncs:device/ncs:name";
+      }
+      mandatory true;
+      must "not(current() = ../head-end)" {
+        error-message "head-end and tail-end endpoint must be different";
+      }
+    }
+
+    leaf color {
+      tailf:info "<1-4294967295> - SR policy color";
+      description "<1-4294967295> - SR policy color";
+      type uint32 {
+        range  "1..4294967295";
+      }
+      mandatory true;
+    }
+
+    list path {
+      tailf:info "SR-Policy candidate paths";
+      description "SR-Policy candidate paths";
+      key preference;
+      leaf preference {
+        tailf:info "<1-65535> - Path preference - Higher value indicates higher preference";
+        description "<1-65535> - Path preference - Higher value indicates higher preference";
+        type uint16 {
+          range  "1..65535";
+        }
+        tailf:cli-allow-range;
+      }
+      min-elements 1;
+
+      container dynamic {
+        tailf:info "Use dynamic path computation";
+        description "Use dynamic path computation";
+        
+        container pce {
+          tailf:info "Delegate dynamic path computation to PCE";
+          description "Delegate dynamic path computation to PCE";
+          presence true;
+        }
+
+        leaf metric-type {
+          tailf:info "Metric type configuration";
+          description "Metric type configuration";
+          type enumeration {
+            enum igp;
+            enum te;
+            enum latency;
+            enum hopcount;
+          }
+        }
+      }
+    }
+
+  }
+
+  list sr-policy-plan {
+    config false;
+    tailf:cdb-oper {
+      tailf:persistent true;
+    }
+    key "name";
+
+    leaf name {
+      type string;
+    }
+
+    uses ncs:nano-plan-data;
+  }
+}

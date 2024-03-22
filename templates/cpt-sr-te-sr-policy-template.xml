@@ -1,0 +1,30 @@
+<config-template xmlns="http://tail-f.com/ns/config/1.0">
+  <sr-te xmlns="http://cisco.com/ns/nso/cfp/cisco-tsdn-sr-te">
+    <policies xmlns="http://cisco.com/ns/nso/cfp/cisco-tsdn-sr-te-sr-policies">
+      <policy>
+        <name>CPT-SR-TE-SR-Policy-{$NAME}-internal</name>
+        <!-- Service level custom templates -->
+        <!-- <?foreach {custom-template}?>
+          <custom-template>
+            <name>{name}</name>
+            <?copy-tree {.}?>
+          </custom-template>
+        <?end?> -->
+        <head-end>
+          <name>{$HEAD_END}</name>
+        </head-end>
+        <tail-end>{$TAIL_END}</tail-end>
+        <color>{$COLOR}</color>
+        <?foreach {/path}?>
+          <path>
+            <preference>{preference}</preference>
+            <dynamic when="{dynamic}">
+              <?set-context-node {dynamic}?>
+              <?copy-tree {.}?>
+            </dynamic>
+          </path>
+        <?end?>
+      </policy>
+    </policies>
+  </sr-te>
+</config-template>
