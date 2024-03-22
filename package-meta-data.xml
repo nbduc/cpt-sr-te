@@ -5,7 +5,19 @@
   <ncs-min-version>6.1</ncs-min-version>
 
   <required-package>
+    <name>custom-template-utils</name>
+  </required-package>
+
+  <required-package>
     <name>core-fp-common</name>
+  </required-package>
+
+  <required-package>
+    <name>cisco-tsdn-core-fp-common</name>
+  </required-package>
+
+  <required-package>
+    <name>lsa-utils</name>
   </required-package>
 
   <component>

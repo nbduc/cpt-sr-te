@@ -2,6 +2,7 @@
 import ncs
 from . import utils
 from . import cpt_sr_te_sr_policy_nano_plan
+from . import cpt_sr_te_sr_policy_actions
 
 class Main(ncs.application.Application):
     def setup(self):
@@ -30,6 +31,12 @@ class Main(ncs.application.Application):
         self.register_nano_service(
             utils.SR_POLICY_SERVICEPOINT, utils.SR_POLICY_COMP_HEADEND, utils.NCS_READY, 
             cpt_sr_te_sr_policy_nano_plan.HeadEndCallback,
+        )
+
+        # CPT SR-TE Actions
+        self.register_action(
+            "policy-internal-plan-change-handler", 
+            cpt_sr_te_sr_policy_actions.InternalPolicyPlanChangeHandler
         )
 
     def teardown(self):

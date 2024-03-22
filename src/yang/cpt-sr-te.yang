@@ -98,6 +98,19 @@ module cpt-sr-te {
 
   }
 
+  // these actions are to drive external plan in case of stacked-service
+  container cpt-sr-te-actions {
+    tailf:action internal-plan-change-handler {
+      tailf:hidden full;
+      tailf:actionpoint policy-internal-plan-change-handler;
+      input {
+        uses kicker:action-input-params;
+      }
+      output {
+      }
+    }
+  }
+
   list sr-policy-plan {
     config false;
     tailf:cdb-oper {
