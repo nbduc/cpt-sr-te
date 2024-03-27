@@ -3,23 +3,6 @@ import ncs
 from .status_codes.cpt_sr_te_status_codes import StatusCodes
 from .status_codes.cpt_sr_te_base_exception import get_status_code_class
 
-SR_POLICY_SERVICEPOINT = "cpt-sr-te-sr-policy-servicepoint"
-SR_POLICY_COMP_HEADEND = "cpt-sr-te-sr-policy-nano-plan:head-end"
-SR_POLICY_ST_CONFIG_APPLY = "cpt-sr-te-sr-policy-nano-plan:config-apply"
-
-NCS_SELF = "ncs:self"
-NCS_INIT = "ncs:init"
-NCS_READY = "ncs:ready"
-SELF = "self"
-
-SELF_COMP_KEY = (NCS_SELF, SELF)
-
-STATUS_REACHED = "reached"
-STATUS_FAILED = "failed"
-STATUS_NOT_REACHED = "not-reached"
-
-ZOMBIE_PATH = "/ncs:zombies/ncs:service"
-
 def is_lsa_setup():
     with ncs.maapi.single_read_trans("", "system", db=ncs.RUNNING) as th:
         try:

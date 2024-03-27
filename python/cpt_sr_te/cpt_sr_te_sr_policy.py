@@ -20,23 +20,34 @@ class SrPolicy(CncService):
 
     @staticmethod
     def get_service_name_from_path(path):
-        return re.search("sr-policy-plan{(.*) ", path).group(1)
-
+        internal_service_name = re.search("policy-plan{(.*) ", path).group(1)
+        if internal_service_name[:20] == "CPT-SR-TE-SR-Policy-" and internal_service_name[-9:] == "-internal":
+            # Remove 'CPT-SR-TE-SR-Policy-' and '-internal'
+            service_name = internal_service_name[20:-9]
+        else:
+            # service_name = CPT-SR-TE-SR-Policy-<service-name>-internal
+            service_name = internal_service_name
+        return service_name
+    
     @staticmethod
     def get_service_key_from_path(path):
-        re_search = re.search("sr-policy-plan{(.*?) (.*?)}", path)
-        return re_search.group(1), re_search.group(2)
+        re_search = re.search("policy-plan{(.*?) (.*?)}", path)
+        internal_service_name = re_search.group(1)
+        if internal_service_name[:20] == "CPT-SR-TE-SR-Policy-" and internal_service_name[-9:] == "-internal":
+            # Remove 'CPT-SR-TE-SR-Policy-' and '-internal'
+            service_name = internal_service_name[20:-9]
+        else:
+            # service_name = CPT-SR-TE-SR-Policy-<service-name>-internal
+            service_name = internal_service_name
+        return service_name, re_search.group(2)
 
     @staticmethod
-    def get_service_kp(policy_service_name):
-        return (f"/cpt-sr-te:sr-policy{{{policy_service_name}}}")
+    def get_service_kp(service_name):
+        return f"/cpt-sr-te:sr-policy{{{service_name}}}"
 
     @staticmethod
     def get_service_xpath(policy_service_name):
-        if SrPolicy.is_lsa_setup():
-            return (f"/cpt-sr-te:sr-policy[name='{policy_service_name}']")
-        else:
-            return (f"/cpt-sr-te:sr-policy[name='{policy_service_name}']")
+        return (f"/cpt-sr-te:sr-policy[name='{policy_service_name}']")
 
     @staticmethod
     def get_plan_kp(policy_service_name):
@@ -52,8 +63,8 @@ class SrPolicy(CncService):
             return "/cisco-tsdn-core-fp-common:rfs-policy-plan"
         else:
             return (
-                "/cisco-sr-te-cfp:sr-te/cisco-sr-te-cfp-sr-policies:policies"
-                "/cisco-sr-te-cfp-sr-policies:policy-plan"
+                "/cisco-sr-te-cfp-internal:sr-te/cisco-sr-te-cfp-sr-policies-internal:policies"
+                "/cisco-sr-te-cfp-sr-policies-internal:policy-plan"
             )
 
     @staticmethod
