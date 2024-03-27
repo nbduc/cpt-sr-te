@@ -14,9 +14,9 @@ def get_cpt_sr_te_sr_policy_service_kp(service_name):
 
 
 def get_cpt_sr_te_sr_policy_plan_kp(service_name):
-    return (f"{CPT_SR_TE_SR_POLICY_PLAN_PATH}{{{service_name}}}")
+    return f"{CPT_SR_TE_SR_POLICY_PLAN_PATH}{{{service_name}}}"
 
 
 def get_cpt_sr_te_sr_policy_zombie_kp(service_name):
-    zombie_service_path = (f"{CPT_SR_TE_SR_POLICY_SERVICE_PATH}[name='{service_name}']")
+    zombie_service_path = f"{CPT_SR_TE_SR_POLICY_SERVICE_PATH}[name='{service_name}']"
     return f'{ZOMBIE_PATH}{{"{zombie_service_path}"}}'
