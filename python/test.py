@@ -12,17 +12,20 @@ with ncs.maapi.single_read_trans("", "system", db=ncs.RUNNING) as th:
 
         # internal_plan_path = (root.cpt_sr_te__sr_policy_plan["123"].plan.component["cpt-sr-te-sr-policy-nano-plan:head-end", "Node-8"])
         # pprint(internal_plan_path.state)
-        
-        internal_plan_path = (root.cisco_sr_te_cfp_internal__sr_te
-                .cisco_sr_te_cfp_sr_policies_internal__policies
-                .policy_plan)
+
+        internal_plan_path = (
+            root.cisco_sr_te_cfp_internal__sr_te.cisco_sr_te_cfp_sr_policies_internal__policies.policy_plan
+        )
         service_name = "CPT-SR-TE-SR-Policy-121-internal"
         head_end = "Node-8"
         if (service_name, head_end) not in internal_plan_path:
-            pprint(f"Internal plan for {service_name} {head_end} "
-                          "doesn't exist")
+            pprint(f"Internal plan for {service_name} {head_end} " "doesn't exist")
         else:
-            state = internal_plan_path[(service_name, head_end)].plan.component["ncs:self", "self"].state
+            state = (
+                internal_plan_path[(service_name, head_end)]
+                .plan.component["ncs:self", "self"]
+                .state
+            )
             for item in state:
                 pprint(item.status)
 
