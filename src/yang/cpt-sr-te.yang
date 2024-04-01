@@ -7,6 +7,7 @@ module cpt-sr-te {
   import tailf-ncs { prefix ncs; }
   import tailf-common { prefix tailf; }
   import tailf-kicker { prefix kicker; }
+  import cisco-tsdn-core-fp-common { prefix tsdn-core-fp-common; }
 
   description "CPT SR-TE Module";
 
@@ -123,5 +124,14 @@ module cpt-sr-te {
     }
 
     uses ncs:nano-plan-data;
+  }
+
+  augment /sr-policy-plan/plan {
+    uses tsdn-core-fp-common:status-code-plan-augmentation;
+  }
+
+  augment /sr-policy-plan/plan/component {
+    uses tsdn-core-fp-common:status-code-component-augmentation;
+    uses tsdn-core-fp-common:static-config-redeploy-indicator-component-augmentation;
   }
 }

@@ -2,7 +2,7 @@
   <kickers xmlns="http://tail-f.com/ns/kicker">
     <data-kicker>
       <id>cpt-sr-te-sr-policy-internal-plan-kicker</id>
-      <monitor>/cisco-sr-te-cfp:sr-te/cisco-sr-te-cfp-sr-policies:policies/cisco-sr-te-cfp-sr-policies:policy-plan</monitor>
+      <monitor>/cisco-sr-te-cfp:sr-te/cisco-sr-te-cfp-sr-policies:policies/policy-plan</monitor>
       <kick-node>/cpt-sr-te:sr-policy/cpt-sr-te:cpt-sr-te-actions</kick-node>
       <action-name>internal-plan-change-handler</action-name>
     </data-kicker>

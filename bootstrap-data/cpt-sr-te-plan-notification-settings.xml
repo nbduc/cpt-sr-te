@@ -1,0 +1,15 @@
+<config xmlns="http://tail-f.com/ns/config/1.0">
+  <services xmlns="http://tail-f.com/ns/ncs">
+    <plan-notifications>
+      <subscription>
+        <name>cpt-sr-te-sr-policy-notif</name>
+        <service-type>/cpt-sr-te:sr-policy</service-type>
+      </subscription>
+    </plan-notifications>
+  </services>
+  <plan-path-for-notification xmlns="http://com/cisco/core-fp-plan-notif-generator">
+    <path>/cpt-sr-te:sr-policy-plan</path>
+    <service-path>/cpt-sr-te:sr-policy</service-path>
+    <service-key-elements>name</service-key-elements>
+  </plan-path-for-notification>
+</config>
